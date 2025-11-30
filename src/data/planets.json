@@ -1,0 +1,42 @@
+[
+    {
+        "name": "Sun",
+        "description": "Self, Ego, Vitality"
+    },
+    {
+        "name": "Moon",
+        "description": "Emotions, Instincts, Habits"
+    },
+    {
+        "name": "Mercury",
+        "description": "Communication, Intellect, Reason"
+    },
+    {
+        "name": "Venus",
+        "description": "Love, Beauty, Values"
+    },
+    {
+        "name": "Mars",
+        "description": "Action, Desire, Aggression"
+    },
+    {
+        "name": "Jupiter",
+        "description": "Expansion, Luck, Philosophy"
+    },
+    {
+        "name": "Saturn",
+        "description": "Restriction, Structure, Discipline"
+    },
+    {
+        "name": "Uranus",
+        "description": "Change, Rebellion, Innovation"
+    },
+    {
+        "name": "Neptune",
+        "description": "Dreams, Illusion, Spirituality"
+    },
+    {
+        "name": "Pluto",
+        "description": "Transformation, Power, Rebirth"
+    }
+]

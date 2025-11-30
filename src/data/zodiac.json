@@ -1,0 +1,122 @@
+{
+    "Aries": {
+        "element": "Lửa",
+        "quality": "Tiên phong",
+        "ruler": "Sao Hỏa",
+        "traits": [
+            "Dũng cảm",
+            "Quyết đoán",
+            "Tự tin"
+        ]
+    },
+    "Taurus": {
+        "element": "Đất",
+        "quality": "Kiên định",
+        "ruler": "Sao Kim",
+        "traits": [
+            "Đáng tin cậy",
+            "Kiên nhẫn",
+            "Thực tế"
+        ]
+    },
+    "Gemini": {
+        "element": "Khí",
+        "quality": "Linh hoạt",
+        "ruler": "Sao Thủy",
+        "traits": [
+            "Nhẹ nhàng",
+            "Tình cảm",
+            "Tò mò"
+        ]
+    },
+    "Cancer": {
+        "element": "Nước",
+        "quality": "Tiên phong",
+        "ruler": "Mặt Trăng",
+        "traits": [
+            "Kiên trì",
+            "Giàu trí tưởng tượng",
+            "Trung thành"
+        ]
+    },
+    "Leo": {
+        "element": "Lửa",
+        "quality": "Kiên định",
+        "ruler": "Mặt Trời",
+        "traits": [
+            "Sáng tạo",
+            "Đam mê",
+            "Hào phóng"
+        ]
+    },
+    "Virgo": {
+        "element": "Đất",
+        "quality": "Linh hoạt",
+        "ruler": "Sao Thủy",
+        "traits": [
+            "Trung thành",
+            "Phân tích",
+            "Tốt bụng"
+        ]
+    },
+    "Libra": {
+        "element": "Khí",
+        "quality": "Tiên phong",
+        "ruler": "Sao Kim",
+        "traits": [
+            "Hợp tác",
+            "Ngoại giao",
+            "Duyên dáng"
+        ]
+    },
+    "Scorpio": {
+        "element": "Nước",
+        "quality": "Kiên định",
+        "ruler": "Sao Diêm Vương",
+        "traits": [
+            "Tháo vát",
+            "Dũng cảm",
+            "Đam mê"
+        ]
+    },
+    "Sagittarius": {
+        "element": "Lửa",
+        "quality": "Linh hoạt",
+        "ruler": "Sao Mộc",
+        "traits": [
+            "Hào phóng",
+            "Lý tưởng hóa",
+            "Hài hước"
+        ]
+    },
+    "Capricorn": {
+        "element": "Đất",
+        "quality": "Tiên phong",
+        "ruler": "Sao Thổ",
+        "traits": [
+            "Có trách nhiệm",
+            "Kỷ luật",
+            "Tự chủ"
+        ]
+    },
+    "Aquarius": {
+        "element": "Khí",
+        "quality": "Kiên định",
+        "ruler": "Sao Thiên Vương",
+        "traits": [
+            "Tiến bộ",
+            "Độc đáo",
+            "Độc lập"
+        ]
+    },
+    "Pisces": {
+        "element": "Nước",
+        "quality": "Linh hoạt",
+        "ruler": "Sao Hải Vương",
+        "traits": [
+            "Từ bi",
+            "Nghệ thuật",
+            "Trực giác"
+        ]
+    }
+}

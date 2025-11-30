@@ -1,0 +1,158 @@
+{
+    "1": {
+        "meaning": "Nhà lãnh đạo, độc lập, tiên phong",
+        "strengths": [
+            "Tham vọng",
+            "Dũng cảm",
+            "Quyết đoán"
+        ],
+        "weaknesses": [
+            "Hung hăng",
+            "Áp đặt",
+            "Cái tôi lớn"
+        ]
+    },
+    "2": {
+        "meaning": "Người hòa giải, nhạy cảm, hợp tác",
+        "strengths": [
+            "Ngoại giao",
+            "Đồng cảm",
+            "Trực giác"
+        ],
+        "weaknesses": [
+            "Quá nhạy cảm",
+            "Phụ thuộc",
+            "Thiếu quyết đoán"
+        ]
+    },
+    "3": {
+        "meaning": "Người truyền đạt, sáng tạo, xã hội",
+        "strengths": [
+            "Biểu đạt",
+            "Lạc quan",
+            "Hài hước"
+        ],
+        "weaknesses": [
+            "Phân tán",
+            "Hời hợt",
+            "Hay thay đổi"
+        ]
+    },
+    "4": {
+        "meaning": "Người xây dựng, thực tế, đáng tin cậy",
+        "strengths": [
+            "Kỷ luật",
+            "Trung thành",
+            "Tổ chức"
+        ],
+        "weaknesses": [
+            "Cứng nhắc",
+            "Bướng bỉnh",
+            "Bảo thủ"
+        ]
+    },
+    "5": {
+        "meaning": "Nhà thám hiểm, tự do, thích nghi",
+        "strengths": [
+            "Linh hoạt",
+            "Tò mò",
+            "Năng động"
+        ],
+        "weaknesses": [
+            "Vô trách nhiệm",
+            "Bồn chồn",
+            "Thiếu kiên nhẫn"
+        ]
+    },
+    "6": {
+        "meaning": "Người nuôi dưỡng, trách nhiệm, yêu thương",
+        "strengths": [
+            "Quan tâm",
+            "Hòa hợp",
+            "Trách nhiệm"
+        ],
+        "weaknesses": [
+            "Hy sinh quá mức",
+            "Hay can thiệp",
+            "Lo lắng"
+        ]
+    },
+    "7": {
+        "meaning": "Người tìm kiếm, phân tích, tâm linh",
+        "strengths": [
+            "Trí tuệ",
+            "Trực giác",
+            "Nghiên cứu"
+        ],
+        "weaknesses": [
+            "Cô lập",
+            "Hoài nghi",
+            "Xa cách"
+        ]
+    },
+    "8": {
+        "meaning": "Người thành đạt, quyền lực, thịnh vượng",
+        "strengths": [
+            "Quyền uy",
+            "Hiệu quả",
+            "Quản lý"
+        ],
+        "weaknesses": [
+            "Thực dụng",
+            "Tham công tiếc việc",
+            "Áp đặt"
+        ]
+    },
+    "9": {
+        "meaning": "Nhà nhân đạo, từ bi, vị tha",
+        "strengths": [
+            "Hào phóng",
+            "Lý tưởng",
+            "Bao dung"
+        ],
+        "weaknesses": [
+            "Oán giận",
+            "Hy sinh mù quáng",
+            "Mơ mộng"
+        ]
+    },
+    "11": {
+        "meaning": "Bậc thầy trực giác, tâm linh, tầm nhìn",
+        "strengths": [
+            "Truyền cảm hứng",
+            "Trực giác nhạy bén",
+            "Sáng tạo"
+        ],
+        "weaknesses": [
+            "Lo âu",
+            "Thiếu thực tế",
+            "Nhạy cảm quá mức"
+        ]
+    },
+    "22": {
+        "meaning": "Bậc thầy kiến tạo, quyền lực, thực tế",
+        "strengths": [
+            "Hiện thực hóa",
+            "Lãnh đạo",
+            "Tầm nhìn lớn"
+        ],
+        "weaknesses": [
+            "Áp lực",
+            "Thao túng",
+            "Căng thẳng"
+        ]
+    },
+    "33": {
+        "meaning": "Bậc thầy chữa lành, từ bi, hướng dẫn",
+        "strengths": [
+            "Dẫn dắt",
+            "Tận tụy",
+            "Chữa lành"
+        ],
+        "weaknesses": [
+            "Gánh nặng",
+            "Cầu toàn",
+            "Quên mình"
+        ]
+    }
+}
