@@ -3,11 +3,13 @@
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { SignOverview } from '@/components/modules/horoscope/SignOverview';
+import { SignDetails } from '@/components/modules/horoscope/SignDetails';
 import { DailyStats } from '@/components/modules/horoscope/DailyStats';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Loader } from '@/components/ui/loader';
 import { HoroscopeService } from '@/services/horoscope.service';
+import { getZodiacDisplayName } from '@/utils/zodiac-names';
 
 export default function SignPage() {
     const params = useParams();
@@ -20,12 +22,12 @@ export default function SignPage() {
             if (params.sign) {
                 setLoading(true);
                 try {
-                    // Get sign info
-                    const info = HoroscopeService.getSignInfo(params.sign);
+                    // Get sign info (async now)
+                    const info = await HoroscopeService.getSignInfo(params.sign);
                     setSignData(info);
 
-                    // Get daily horoscope
-                    const daily = await HoroscopeService.getDailyHoroscope(params.sign);
+                    // Get daily horoscope (tự động dùng API nếu có)
+                    const daily = await HoroscopeService.getDailyHoroscope(params.sign, true);
                     setDailyData(daily);
                 } catch (error) {
                     console.error('Error fetching horoscope data:', error);
@@ -49,15 +51,22 @@ export default function SignPage() {
                 </Link>
             </div>
 
-            <div className="grid gap-8 md:grid-cols-2">
+            <div className="space-y-8">
                 <div>
-                    <h1 className="text-4xl font-bold mb-4 capitalize">{params.sign}</h1>
-                    <SignOverview data={signData} />
+                    <h1 className="text-4xl font-bold mb-6 capitalize">
+                        {getZodiacDisplayName(params.sign)}
+                    </h1>
+                    <div className="grid gap-6 md:grid-cols-2">
+                        <SignOverview data={signData} />
+                        <div>
+                            <h2 className="text-2xl font-bold mb-4">Dự Báo Hàng Ngày</h2>
+                            {dailyData && <DailyStats stats={dailyData} />}
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <h2 className="text-2xl font-bold mb-4">Dự Báo Hàng Ngày</h2>
-                    {dailyData && <DailyStats stats={dailyData} />}
-                </div>
+
+                {/* Chi Tiết */}
+                <SignDetails data={signData} />
             </div>
         </div>
     );

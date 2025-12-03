@@ -7,7 +7,39 @@
             "Dũng cảm",
             "Quyết đoán",
             "Tự tin"
-        ]
+        ],
+        "meaning": "Bạch Dương là cung hoàng đạo đầu tiên trong vòng tròn hoàng đạo, tượng trưng cho sự khởi đầu, năng lượng và tinh thần tiên phong. Người thuộc cung này thường có tính cách mạnh mẽ, quyết đoán và luôn sẵn sàng đối mặt với thử thách.",
+        "mythology": "Trong thần thoại Hy Lạp, Bạch Dương gắn liền với câu chuyện về con cừu vàng có bộ lông quý giá. Vua Athamas có hai người con là Phrixus và Helle. Khi mẹ của họ qua đời, vua cưới một người vợ mới tên là Ino, người muốn giết hai đứa trẻ. Thần Hermes đã cử một con cừu vàng có cánh đến cứu họ. Con cừu đã mang Phrixus và Helle bay đi, nhưng Helle rơi xuống biển (nơi sau này được gọi là Hellespont). Phrixus đến được Colchis an toàn và đã hiến tế con cừu cho thần Zeus, treo bộ lông vàng trong một khu rừng thiêng. Bộ lông vàng này sau đó trở thành mục tiêu của cuộc hành trình của Jason và các Argonauts.",
+        "personality": {
+            "strengths": [
+                "Dũng cảm và không sợ thử thách",
+                "Lãnh đạo tự nhiên, có khả năng dẫn dắt người khác",
+                "Năng động, nhiệt huyết và đầy năng lượng",
+                "Quyết đoán, không do dự khi đưa ra quyết định",
+                "Tự tin và độc lập",
+                "Trung thực, thẳng thắn trong giao tiếp"
+            ],
+            "weaknesses": [
+                "Nóng tính, dễ mất kiên nhẫn",
+                "Bốc đồng, đôi khi hành động mà không suy nghĩ kỹ",
+                "Có thể quá tự tin, dẫn đến kiêu ngạo",
+                "Khó chấp nhận thất bại hoặc phê bình",
+                "Thiếu kiên nhẫn với những người chậm chạp",
+                "Có xu hướng bỏ qua chi tiết nhỏ"
+            ]
+        },
+        "compatibility": {
+            "best": ["Leo", "Sagittarius", "Gemini", "Aquarius"],
+            "good": ["Libra", "Scorpio"],
+            "challenging": ["Cancer", "Capricorn", "Pisces"]
+        },
+        "career": "Người Bạch Dương phù hợp với các nghề nghiệp đòi hỏi sự lãnh đạo, quyết đoán và năng động như: quân đội, cảnh sát, vận động viên, doanh nhân, nhà quản lý, bác sĩ phẫu thuật, luật sư, nhà báo, nhà thám hiểm.",
+        "love": "Trong tình yêu, Bạch Dương là người chủ động, nhiệt tình và trung thực. Họ yêu một cách mãnh liệt và không ngại thể hiện cảm xúc. Tuy nhiên, họ cần một đối tác có thể hiểu và chấp nhận tính cách mạnh mẽ của họ, đồng thời có thể đối đầu với họ một cách công bằng.",
+        "symbol": "Con cừu đực với sừng cong",
+        "colors": ["Đỏ", "Cam", "Vàng"],
+        "gemstone": "Kim cương, Hồng ngọc",
+        "luckyNumbers": [1, 8, 17],
+        "luckyDay": "Thứ Ba"
     },
     "Taurus": {
         "element": "Đất",

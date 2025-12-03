@@ -15,6 +15,11 @@ export const metadata = {
         template: `%s | ${siteConfig.name}`,
     },
     description: siteConfig.description,
+    icons: {
+        icon: '/icon.svg',
+        shortcut: '/icon.svg',
+        apple: '/icon.svg',
+    },
 };
 
 
@@ -22,7 +27,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
     return (
         <html lang="en" suppressHydrationWarning>
-            <body className={inter.className}>
+            <body className={inter.className} suppressHydrationWarning>
                 <ThemeProvider>
                     <AuthProvider>
                         <AnimationProvider>

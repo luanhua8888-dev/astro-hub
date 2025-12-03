@@ -85,6 +85,145 @@ const StarField = () => {
     );
 };
 
+// Poster Slideshow Component
+const PosterSlideshow = () => {
+    const [currentSlide, setCurrentSlide] = useState(0);
+
+    const slides = [
+        // Zodiac Signs
+        { type: 'zodiac', title: 'Bạch Dương', subtitle: 'Aries • 21/3 - 19/4', description: 'Dũng cảm, nhiệt huyết, tiên phong', gradient: 'from-red-500 via-orange-500 to-yellow-500', icon: '♈' },
+        { type: 'zodiac', title: 'Kim Ngưu', subtitle: 'Taurus • 20/4 - 20/5', description: 'Kiên định, thực tế, đáng tin cậy', gradient: 'from-green-600 via-emerald-500 to-teal-500', icon: '♉' },
+        { type: 'zodiac', title: 'Song Tử', subtitle: 'Gemini • 21/5 - 20/6', description: 'Linh hoạt, giao tiếp, tò mò', gradient: 'from-yellow-400 via-amber-400 to-orange-400', icon: '♊' },
+        { type: 'zodiac', title: 'Cự Giải', subtitle: 'Cancer • 21/6 - 22/7', description: 'Nhạy cảm, chu đáo, bảo vệ', gradient: 'from-blue-400 via-cyan-400 to-teal-400', icon: '♋' },
+        { type: 'zodiac', title: 'Sư Tử', subtitle: 'Leo • 23/7 - 22/8', description: 'Tự tin, lãnh đạo, hào phóng', gradient: 'from-orange-500 via-red-500 to-pink-500', icon: '♌' },
+        { type: 'zodiac', title: 'Xử Nữ', subtitle: 'Virgo • 23/8 - 22/9', description: 'Tỉ mỉ, phân tích, hoàn hảo', gradient: 'from-green-500 via-lime-500 to-yellow-500', icon: '♍' },
+        { type: 'zodiac', title: 'Thiên Bình', subtitle: 'Libra • 23/9 - 22/10', description: 'Cân bằng, hài hòa, công bằng', gradient: 'from-pink-400 via-rose-400 to-red-400', icon: '♎' },
+        { type: 'zodiac', title: 'Bọ Cạp', subtitle: 'Scorpio • 23/10 - 21/11', description: 'Mạnh mẽ, bí ẩn, quyết đoán', gradient: 'from-purple-600 via-indigo-600 to-blue-600', icon: '♏' },
+        { type: 'zodiac', title: 'Nhân Mã', subtitle: 'Sagittarius • 22/11 - 21/12', description: 'Tự do, phiêu lưu, lạc quan', gradient: 'from-violet-500 via-purple-500 to-fuchsia-500', icon: '♐' },
+        { type: 'zodiac', title: 'Ma Kết', subtitle: 'Capricorn • 22/12 - 19/1', description: 'Kỷ luật, tham vọng, trách nhiệm', gradient: 'from-slate-600 via-gray-600 to-zinc-600', icon: '♑' },
+        { type: 'zodiac', title: 'Bảo Bình', subtitle: 'Aquarius • 20/1 - 18/2', description: 'Độc lập, sáng tạo, nhân đạo', gradient: 'from-cyan-500 via-blue-500 to-indigo-500', icon: '♒' },
+        { type: 'zodiac', title: 'Song Ngư', subtitle: 'Pisces • 19/2 - 20/3', description: 'Trực giác, nghệ sĩ, từ bi', gradient: 'from-blue-500 via-purple-500 to-pink-500', icon: '♓' },
+
+        // Space News
+        { type: 'news', title: 'Sao Hỏa', subtitle: 'Hành Tinh Đỏ', description: 'Khám phá tiềm năng sự sống trên sao Hỏa', gradient: 'from-red-600 via-orange-600 to-amber-600', icon: '🔴' },
+        { type: 'news', title: 'Hố Đen', subtitle: 'Bí Ẩn Vũ Trụ', description: 'Nghiên cứu mới về lực hấp dẫn cực mạnh', gradient: 'from-black via-purple-900 to-indigo-900', icon: '⚫' },
+        { type: 'news', title: 'Trái Đất', subtitle: 'Hành Tinh Xanh', description: 'Bảo vệ môi trường cho thế hệ tương lai', gradient: 'from-blue-600 via-green-600 to-teal-600', icon: '🌍' },
+    ];
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentSlide((prev) => (prev + 1) % slides.length);
+        }, 5000); // Auto-play every 5 seconds
+
+        return () => clearInterval(timer);
+    }, [slides.length]);
+
+    const nextSlide = () => {
+        setCurrentSlide((prev) => (prev + 1) % slides.length);
+    };
+
+    const prevSlide = () => {
+        setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    };
+
+    const goToSlide = (index) => {
+        setCurrentSlide(index);
+    };
+
+    return (
+        <div className="relative w-full max-w-5xl mx-auto">
+            {/* Slideshow Container */}
+            <div className="relative h-[500px] md:h-[600px] rounded-3xl overflow-hidden">
+                {slides.map((slide, index) => (
+                    <motion.div
+                        key={index}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: currentSlide === index ? 1 : 0 }}
+                        transition={{ duration: 0.7 }}
+                        className={`absolute inset-0 bg-gradient-to-br ${slide.gradient}`}
+                        style={{ pointerEvents: currentSlide === index ? 'auto' : 'none' }}
+                    >
+                        {/* Overlay */}
+                        <div className="absolute inset-0 bg-black/20" />
+
+                        {/* Content */}
+                        <div className="relative h-full flex flex-col items-center justify-center text-center px-8">
+                            <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: currentSlide === index ? 1 : 0 }}
+                                transition={{ duration: 0.5, delay: 0.2 }}
+                                className="text-8xl md:text-9xl mb-8 drop-shadow-2xl"
+                            >
+                                {slide.icon}
+                            </motion.div>
+
+                            <motion.h3
+                                initial={{ y: 20, opacity: 0 }}
+                                animate={{ y: currentSlide === index ? 0 : 20, opacity: currentSlide === index ? 1 : 0 }}
+                                transition={{ duration: 0.5, delay: 0.3 }}
+                                className="text-5xl md:text-7xl font-black text-white mb-4 drop-shadow-lg"
+                            >
+                                {slide.title}
+                            </motion.h3>
+
+                            <motion.p
+                                initial={{ y: 20, opacity: 0 }}
+                                animate={{ y: currentSlide === index ? 0 : 20, opacity: currentSlide === index ? 1 : 0 }}
+                                transition={{ duration: 0.5, delay: 0.4 }}
+                                className="text-xl md:text-2xl text-white/90 mb-3 font-semibold"
+                            >
+                                {slide.subtitle}
+                            </motion.p>
+
+                            <motion.p
+                                initial={{ y: 20, opacity: 0 }}
+                                animate={{ y: currentSlide === index ? 0 : 20, opacity: currentSlide === index ? 1 : 0 }}
+                                transition={{ duration: 0.5, delay: 0.5 }}
+                                className="text-lg md:text-xl text-white/80 max-w-2xl"
+                            >
+                                {slide.description}
+                            </motion.p>
+                        </div>
+                    </motion.div>
+                ))}
+            </div>
+
+            {/* Navigation Buttons */}
+            <button
+                onClick={prevSlide}
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all hover:scale-110"
+            >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+
+            <button
+                onClick={nextSlide}
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all hover:scale-110"
+            >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+
+            {/* Dot Indicators */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+                {slides.map((_, index) => (
+                    <button
+                        key={index}
+                        onClick={() => goToSlide(index)}
+                        className={`w-2 h-2 rounded-full transition-all ${currentSlide === index
+                            ? 'bg-white w-8'
+                            : 'bg-white/40 hover:bg-white/60'
+                            }`}
+                    />
+                ))}
+            </div>
+        </div>
+    );
+};
+
 const FeatureCard = ({ icon: Icon, title, description, href, color, delay }) => {
     return (
         <Link href={href} className="block h-full">
@@ -274,6 +413,28 @@ export default function Home() {
                             delay={0.6}
                         />
                     </div>
+                </div>
+            </section>
+
+            {/* Poster Slideshow Section */}
+            <section className="relative z-10 py-32 px-4">
+                <div className="max-w-7xl mx-auto">
+                    <motion.div
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1 }}
+                        className="text-center mb-16"
+                    >
+                        <h2 className="text-5xl md:text-6xl font-black mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-300 via-pink-300 to-blue-300">
+                            Khám Phá Vũ Trụ
+                        </h2>
+                        <p className="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto">
+                            Cung hoàng đạo, tin tức thiên văn và những bí ẩn của vũ trụ
+                        </p>
+                    </motion.div>
+
+                    <PosterSlideshow />
                 </div>
             </section>
 

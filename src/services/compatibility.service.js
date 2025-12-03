@@ -1,83 +1,107 @@
-const compatibilityData = {
-    default: {
-        score: 70,
-        title: "Tương Hợp Khá",
-        description: "Hai bạn có nhiều điểm chung nhưng cũng cần nỗ lực để thấu hiểu nhau hơn. Hãy kiên nhẫn và lắng nghe đối phương.",
-        aspects: {
-            emotional: 75,
-            communication: 65,
-            intimacy: 70,
-            trust: 70
-        }
-    },
-    high: {
-        score: 95,
-        title: "Cặp Đôi Hoàn Hảo",
-        description: "Hai bạn sinh ra là để dành cho nhau! Sự thấu hiểu và đồng điệu giữa hai tâm hồn thật đáng ngưỡng mộ.",
-        aspects: {
-            emotional: 98,
-            communication: 95,
-            intimacy: 92,
-            trust: 95
-        }
-    },
-    low: {
-        score: 45,
-        title: "Cần Nhiều Nỗ Lực",
-        description: "Sự khác biệt về tính cách có thể gây ra mâu thuẫn. Cả hai cần học cách chấp nhận và tôn trọng sự khác biệt của nhau.",
-        aspects: {
-            emotional: 40,
-            communication: 50,
-            intimacy: 45,
-            trust: 45
-        }
-    }
-};
-
-// Logic giả lập độ hợp nhau dựa trên nguyên tố (Fire, Earth, Air, Water)
-const elements = {
-    Aries: 'Fire', Leo: 'Fire', Sagittarius: 'Fire',
-    Taurus: 'Earth', Virgo: 'Earth', Capricorn: 'Earth',
-    Gemini: 'Air', Libra: 'Air', Aquarius: 'Air',
-    Cancer: 'Water', Scorpio: 'Water', Pisces: 'Water'
-};
+import { supabase } from '@/config/supabase';
 
 export const CompatibilityService = {
-    calculate: (sign1, sign2) => {
-        const elem1 = elements[sign1];
-        const elem2 = elements[sign2];
-
-        let result = { ...compatibilityData.default };
-
-        // Cùng nguyên tố -> Hợp nhau nhất
-        if (elem1 === elem2) {
-            result = { ...compatibilityData.high };
+    // Save compatibility record
+    saveCompatibility: async (userId, compatibilityData) => {
+        try {
+            const { data, error } = await supabase
+                .from('compatibility_records')
+                .insert({
+                    user_id: userId,
+                    partner_name: compatibilityData.partnerName || '',
+                    partner_birth_date: compatibilityData.partnerBirthDate || null,
+                    partner_birth_time: compatibilityData.partnerBirthTime || null,
+                    partner_birth_location: compatibilityData.partnerBirthLocation || '',
+                    compatibility_data: compatibilityData.compatibilityData || {},
+                    notes: compatibilityData.notes || '',
+                })
+                .select()
+                .single();
+            
+            if (error) throw error;
+            return data;
+        } catch (error) {
+            console.error('Error saving compatibility record:', error);
+            throw error;
         }
-        // Các cặp nguyên tố hợp nhau: Fire-Air, Earth-Water
-        else if (
-            (elem1 === 'Fire' && elem2 === 'Air') || (elem1 === 'Air' && elem2 === 'Fire') ||
-            (elem1 === 'Earth' && elem2 === 'Water') || (elem1 === 'Water' && elem2 === 'Earth')
-        ) {
-            result.score = 85;
-            result.title = "Tương Hợp Tốt";
-            result.description = "Hai bạn bổ sung cho nhau rất tốt. Một mối quan hệ hài hòa và bền vững.";
-        }
-        // Các cặp xung khắc: Fire-Water, Air-Earth
-        else if (
-            (elem1 === 'Fire' && elem2 === 'Water') || (elem1 === 'Water' && elem2 === 'Fire') ||
-            (elem1 === 'Air' && elem2 === 'Earth') || (elem1 === 'Earth' && elem2 === 'Air')
-        ) {
-            result = { ...compatibilityData.low };
-        }
+    },
 
-        // Randomize nhẹ để không bị trùng lặp hoàn toàn
-        const randomOffset = Math.floor(Math.random() * 10) - 5;
-        result.score = Math.min(100, Math.max(0, result.score + randomOffset));
+    // Get all compatibility records
+    getCompatibilityRecords: async (userId, limit = 50) => {
+        try {
+            const { data, error } = await supabase
+                .from('compatibility_records')
+                .select('*')
+                .eq('user_id', userId)
+                .order('created_at', { ascending: false })
+                .limit(limit);
+            
+            if (error) throw error;
+            return data || [];
+        } catch (error) {
+            console.error('Error getting compatibility records:', error);
+            throw error;
+        }
+    },
 
-        return {
-            sign1,
-            sign2,
-            ...result
-        };
-    }
+    // Get single compatibility record
+    getCompatibilityRecord: async (userId, recordId) => {
+        try {
+            const { data, error } = await supabase
+                .from('compatibility_records')
+                .select('*')
+                .eq('id', recordId)
+                .eq('user_id', userId)
+                .single();
+            
+            if (error) throw error;
+            return data;
+        } catch (error) {
+            console.error('Error getting compatibility record:', error);
+            throw error;
+        }
+    },
+
+    // Update compatibility record
+    updateCompatibility: async (userId, recordId, updates) => {
+        try {
+            const { data, error } = await supabase
+                .from('compatibility_records')
+                .update({
+                    partner_name: updates.partnerName,
+                    partner_birth_date: updates.partnerBirthDate,
+                    partner_birth_time: updates.partnerBirthTime,
+                    partner_birth_location: updates.partnerBirthLocation,
+                    compatibility_data: updates.compatibilityData,
+                    notes: updates.notes,
+                })
+                .eq('id', recordId)
+                .eq('user_id', userId)
+                .select()
+                .single();
+            
+            if (error) throw error;
+            return data;
+        } catch (error) {
+            console.error('Error updating compatibility record:', error);
+            throw error;
+        }
+    },
+
+    // Delete compatibility record
+    deleteCompatibility: async (userId, recordId) => {
+        try {
+            const { error } = await supabase
+                .from('compatibility_records')
+                .delete()
+                .eq('id', recordId)
+                .eq('user_id', userId);
+            
+            if (error) throw error;
+            return true;
+        } catch (error) {
+            console.error('Error deleting compatibility record:', error);
+            throw error;
+        }
+    },
 };

@@ -28,6 +28,13 @@ export function AuthProvider({ children }) {
         return () => unsubscribe();
     }, []);
 
+    const refreshUser = () => {
+        const updatedUser = AuthService.refreshUser();
+        if (updatedUser) {
+            setUser(updatedUser);
+        }
+    };
+
     const value = {
         user,
         loading,
@@ -35,7 +42,10 @@ export function AuthProvider({ children }) {
         register: AuthService.register,
         logout: AuthService.logout,
         resetPassword: AuthService.resetPassword,
+        confirmPasswordReset: AuthService.confirmPasswordReset,
         resendVerification: AuthService.resendVerification,
+        updateUserProfile: AuthService.updateUserProfile,
+        refreshUser,
     };
 
     return (

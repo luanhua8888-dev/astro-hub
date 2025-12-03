@@ -4,6 +4,7 @@ import {
     signOut,
     sendEmailVerification,
     sendPasswordResetEmail,
+    confirmPasswordReset,
     updateProfile,
     onAuthStateChanged,
 } from 'firebase/auth';
@@ -69,10 +70,61 @@ export const AuthService = {
     // Send password reset email
     resetPassword: async (email) => {
         try {
-            await sendPasswordResetEmail(auth, email);
-            return { message: 'Email đặt lại mật khẩu đã được gửi. Vui lòng kiểm tra hộp thư của bạn.' };
+            // Get the current origin (works in browser environment)
+            const origin = typeof window !== 'undefined' ? window.location.origin : '';
+            const actionCodeSettings = {
+                url: `${origin}/reset`,
+                handleCodeInApp: false,
+            };
+
+            // Log for debugging (remove in production)
+            if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+                console.log('Sending password reset email to:', email);
+                console.log('Redirect URL:', actionCodeSettings.url);
+            }
+
+            // Firebase will automatically append oobCode and mode query params to the URL
+            await sendPasswordResetEmail(auth, email, actionCodeSettings);
+            
+            return { message: 'Email đặt lại mật khẩu đã được gửi. Vui lòng kiểm tra hộp thư của bạn (bao gồm cả thư mục spam).' };
+        } catch (error) {
+            // Log error for debugging
+            if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+                console.error('Password reset error:', error);
+            }
+            throw new Error(getErrorMessage(error.code));
+        }
+    },
+
+    // Confirm password reset
+    confirmPasswordReset: async (oobCode, newPassword) => {
+        try {
+            await confirmPasswordReset(auth, oobCode, newPassword);
+            return { message: 'Mật khẩu đã được đặt lại thành công. Bạn có thể đăng nhập với mật khẩu mới.' };
         } catch (error) {
             throw new Error(getErrorMessage(error.code));
+        }
+    },
+
+    // Update user profile (photoURL, displayName)
+    updateUserProfile: async (updates) => {
+        try {
+            const user = auth.currentUser;
+            if (!user) {
+                throw new Error('Không tìm thấy người dùng.');
+            }
+            await updateProfile(user, updates);
+            return {
+                user: {
+                    id: user.uid,
+                    email: user.email,
+                    displayName: user.displayName,
+                    photoURL: user.photoURL,
+                    emailVerified: user.emailVerified,
+                },
+            };
+        } catch (error) {
+            throw new Error('Không thể cập nhật hồ sơ. Vui lòng thử lại.');
         }
     },
 
@@ -103,12 +155,28 @@ export const AuthService = {
                     id: user.uid,
                     email: user.email,
                     displayName: user.displayName,
+                    photoURL: user.photoURL,
                     emailVerified: user.emailVerified,
                 });
             } else {
                 callback(null);
             }
         });
+    },
+
+    // Refresh current user
+    refreshUser: () => {
+        const user = auth.currentUser;
+        if (user) {
+            return {
+                id: user.uid,
+                email: user.email,
+                displayName: user.displayName,
+                photoURL: user.photoURL,
+                emailVerified: user.emailVerified,
+            };
+        }
+        return null;
     },
 };
 
@@ -125,6 +193,8 @@ function getErrorMessage(errorCode) {
         'auth/invalid-credential': 'Thông tin đăng nhập không hợp lệ.',
         'auth/too-many-requests': 'Quá nhiều yêu cầu. Vui lòng thử lại sau.',
         'auth/network-request-failed': 'Lỗi kết nối mạng. Vui lòng kiểm tra kết nối internet.',
+        'auth/expired-action-code': 'Link đặt lại mật khẩu đã hết hạn. Vui lòng yêu cầu link mới.',
+        'auth/invalid-action-code': 'Link đặt lại mật khẩu không hợp lệ. Vui lòng yêu cầu link mới.',
     };
 
     return errorMessages[errorCode] || 'Đã xảy ra lỗi. Vui lòng thử lại.';

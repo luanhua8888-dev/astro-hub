@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import { Menu, X, User, LogIn, LogOut } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Logo } from './logo';
 
 const navItems = [
     { name: 'Trang Chủ', href: '/' },
@@ -16,6 +17,8 @@ const navItems = [
     { name: 'Tarot Hàng Ngày', href: '/tarot' },
     { name: 'Thần Số Học', href: '/numerology' },
     { name: 'Lá Số Tử Vi', href: '/birth-chart' },
+    { name: 'Nhật Ký', href: '/journal' },
+    { name: 'Lịch Sử', href: '/history' },
 ];
 
 export function NavBar() {
@@ -37,9 +40,7 @@ export function NavBar() {
                 <div className="flex h-16 items-center justify-between">
                     {/* Logo */}
                     <Link href="/" className="flex items-center space-x-2">
-                        <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-500">
-                            AstroHub
-                        </span>
+                        <Logo size="default" showText={true} />
                     </Link>
 
                     {/* Desktop Navigation */}
