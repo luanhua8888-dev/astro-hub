@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Sparkles, Moon, Star, Zap, ArrowRight, Compass } from 'lucide-react';
 import { useRef } from 'react';
-import { StarField, ShootingStar } from '@/components/ui/backgrounds/StarField';
+import { StarField, ShootingStars } from '@/components/ui/backgrounds/StarField';
 import { PosterSlideshow } from '@/components/ui/features/PosterSlideshow';
 
 const FeatureCard = ({ icon: Icon, title, description, href, color, delay }) => {
@@ -66,9 +66,7 @@ export default function Home() {
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(76,29,149,0.1),_rgba(15,23,42,1))]" />
                 <div className="absolute top-0 left-0 w-full h-full bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay" />
                 <StarField />
-                <ShootingStar delay={0} />
-                <ShootingStar delay={5} />
-                <ShootingStar delay={12} />
+                <ShootingStars />
             </div>
 
             {/* Hero Section */}

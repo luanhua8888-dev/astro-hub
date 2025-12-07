@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // Simplified StarField for maximum performance and clean aesthetics
 export const StarField = () => {
@@ -87,37 +87,61 @@ export const StarField = () => {
 
 
 
-export const ShootingStar = ({ delay = 0 }) => {
-    // Generate random starting position
-    const top = Math.floor(Math.random() * 30) + "%";
-    const left = Math.floor(Math.random() * 50) + 50 + "%";
+export const ShootingStars = () => {
+    const [stars, setStars] = useState([]);
+
+    useEffect(() => {
+        const createStar = () => {
+            const id = Date.now();
+            const top = Math.random() * 40 + "%"; // Top 40%
+            const left = Math.random() * 30 + 50 + "%"; // Right side
+            const duration = Math.random() * 1.5 + 1;
+            const delay = Math.random() * 4000 + 2000; // 2-6s delay
+
+            setStars(prev => [...prev, { id, top, left, duration }]);
+
+            setTimeout(() => {
+                setStars(prev => prev.filter(s => s.id !== id));
+            }, duration * 1000);
+
+            // Schedule next star
+            setTimeout(createStar, delay);
+        };
+
+        // Start loop
+        const initialTimeout = setTimeout(createStar, 1000);
+
+        return () => clearTimeout(initialTimeout);
+    }, []);
 
     return (
-        <motion.div
-            initial={{
-                top: top,
-                left: left,
-                opacity: 0,
-                scale: 0.5,
-                translateX: 0,
-                translateY: 0,
-            }}
-            animate={{
-                opacity: [0, 1, 0],
-                translateX: -800, // Move left
-                translateY: 800,  // Move down
-            }}
-            transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                delay: delay,
-                repeatDelay: Math.random() * 15 + 10, // Random delay between shots
-                ease: "easeOut"
-            }}
-            className="absolute z-0 h-[2px] w-[100px] bg-gradient-to-l from-white to-transparent rotate-[-45deg]"
-            style={{
-                boxShadow: "0 0 20px 2px rgba(255, 255, 255, 0.4)"
-            }}
-        />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <AnimatePresence>
+                {stars.map(star => (
+                    <motion.div
+                        key={star.id}
+                        initial={{
+                            top: star.top,
+                            left: star.left,
+                            rotate: -45,
+                            opacity: 1,
+                            scale: 1,
+                            x: 0,
+                            y: 0
+                        }}
+                        animate={{
+                            x: -800, // Move Left
+                            y: 800,  // Move Down
+                            opacity: [0, 1, 1, 0], // Fate in, stay, fade out
+                        }}
+                        transition={{
+                            duration: star.duration,
+                            ease: "easeOut",
+                        }}
+                        className="absolute h-[2px] w-[120px] bg-gradient-to-l from-white via-slate-200 to-transparent shadow-[0_0_20px_2px_rgba(255,255,255,0.5)]"
+                    />
+                ))}
+            </AnimatePresence>
+        </div>
     );
 };
