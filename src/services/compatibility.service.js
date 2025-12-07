@@ -17,7 +17,7 @@ export const CompatibilityService = {
                 })
                 .select()
                 .single();
-            
+
             if (error) throw error;
             return data;
         } catch (error) {
@@ -35,7 +35,7 @@ export const CompatibilityService = {
                 .eq('user_id', userId)
                 .order('created_at', { ascending: false })
                 .limit(limit);
-            
+
             if (error) throw error;
             return data || [];
         } catch (error) {
@@ -53,7 +53,7 @@ export const CompatibilityService = {
                 .eq('id', recordId)
                 .eq('user_id', userId)
                 .single();
-            
+
             if (error) throw error;
             return data;
         } catch (error) {
@@ -79,7 +79,7 @@ export const CompatibilityService = {
                 .eq('user_id', userId)
                 .select()
                 .single();
-            
+
             if (error) throw error;
             return data;
         } catch (error) {
@@ -96,7 +96,7 @@ export const CompatibilityService = {
                 .delete()
                 .eq('id', recordId)
                 .eq('user_id', userId);
-            
+
             if (error) throw error;
             return true;
         } catch (error) {
@@ -104,4 +104,51 @@ export const CompatibilityService = {
             throw error;
         }
     },
+
+    // Calculate compatibility (Mock logic for frontend)
+    calculate: (sign1, sign2) => {
+        // Simple consistent hash-based scoring
+        const combined = [sign1, sign2].sort().join('-');
+        let hash = 0;
+        for (let i = 0; i < combined.length; i++) {
+            hash = ((hash << 5) - hash) + combined.charCodeAt(i);
+            hash |= 0;
+        }
+
+        // Normalize hash to 0-100 range with a bias towards higher scores for better UX
+        const baseScore = Math.abs(hash % 41) + 60; // 60-100 random base
+
+        // Aspect scores
+        const aspects = {
+            emotional: Math.min(100, Math.abs((hash * 2) % 40) + 60),
+            communication: Math.min(100, Math.abs((hash * 3) % 40) + 60),
+            intimacy: Math.min(100, Math.abs((hash * 4) % 40) + 60),
+            trust: Math.min(100, Math.abs((hash * 5) % 40) + 60),
+        };
+
+        // Titles based on score
+        let title = '';
+        let description = '';
+
+        if (baseScore >= 90) {
+            title = 'Cặp Đôi Định Mệnh';
+            description = 'Hai bạn sinh ra là để dành cho nhau. Sự hòa hợp giữa hai người gần như tuyệt đối, tạo nên một mối quan hệ bền vững và đầy đam mê.';
+        } else if (baseScore >= 80) {
+            title = 'Hòa Hợp Tuyệt Vời';
+            description = 'Hai bạn có rất nhiều điểm chung và bổ sung cho nhau rất tốt. Mối quan hệ này hứa hẹn sẽ mang lại nhiều niềm vui và hạnh phúc.';
+        } else if (baseScore >= 70) {
+            title = 'Tương Lai Hứa Hẹn';
+            description = 'Dù có vài khác biệt, nhưng hai bạn hoàn toàn có thể xây dựng một mối quan hệ tốt đẹp nếu biết lắng nghe và thấu hiểu nhau.';
+        } else {
+            title = 'Thử Thách Thú Vị';
+            description = 'Hai bạn là hai mảnh ghép trái ngược nhau. Mối quan hệ này sẽ cần nhiều sự nỗ lực và kiên nhẫn, nhưng chính sự khác biệt sẽ tạo nên sức hút.';
+        }
+
+        return {
+            score: baseScore,
+            title,
+            description,
+            aspects
+        };
+    }
 };

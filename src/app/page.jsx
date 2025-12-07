@@ -4,225 +4,9 @@ import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Sparkles, Moon, Star, Zap, ArrowRight, Compass } from 'lucide-react';
-import { useRef, useState, useEffect } from 'react';
-
-// Component sao băng
-// Component sao băng
-const ShootingStar = ({ delay }) => {
-    const [coords, setCoords] = useState({ x: 0, y: 0 });
-    const [mounted, setMounted] = useState(false);
-
-    useEffect(() => {
-        setCoords({
-            x: Math.random() * 50 + 50, // 50-100vw
-            y: Math.random() * 50 // 0-50vh
-        });
-        setMounted(true);
-    }, []);
-
-    if (!mounted) return null;
-
-    return (
-        <motion.div
-            initial={{ x: `${coords.x}vw`, y: `${coords.y}vh`, opacity: 0, scale: 0 }}
-            animate={{
-                x: [`${coords.x}vw`, `${coords.x - 40}vw`],
-                y: [`${coords.y}vh`, `${coords.y + 40}vh`],
-                opacity: [0, 1, 0],
-                scale: [0, 1, 0]
-            }}
-            transition={{
-                duration: 2,
-                delay: delay,
-                repeat: Infinity,
-                repeatDelay: Math.random() * 10 + 5,
-                ease: "easeInOut"
-            }}
-            className="absolute z-0"
-        >
-            {/* Star head */}
-            <div className="w-1 h-1 bg-white rounded-full shadow-[0_0_10px_#fff,0_0_20px_#fff]" />
-
-            {/* Star tail */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150px] h-[2px] bg-gradient-to-r from-transparent via-white to-transparent transform -rotate-45 origin-center -z-10" />
-        </motion.div>
-    );
-};
-
-// Component nền sao lấp lánh
-const StarField = () => {
-    const [stars, setStars] = useState([]);
-
-    useEffect(() => {
-        const newStars = Array.from({ length: 100 }).map((_, i) => ({
-            id: i,
-            x: Math.random() * 100,
-            y: Math.random() * 100,
-            size: Math.random() * 2 + 1,
-            duration: Math.random() * 3 + 2,
-            delay: Math.random() * 2
-        }));
-        setStars(newStars);
-    }, []);
-
-    return (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-            {stars.map((star) => (
-                <motion.div
-                    key={star.id}
-                    className="absolute bg-white rounded-full opacity-70"
-                    style={{
-                        left: `${star.x}%`,
-                        top: `${star.y}%`,
-                        width: star.size,
-                        height: star.size,
-                    }}
-                    animate={{ opacity: [0.2, 1, 0.2], scale: [1, 1.2, 1] }}
-                    transition={{ duration: star.duration, repeat: Infinity, delay: star.delay }}
-                />
-            ))}
-        </div>
-    );
-};
-
-// Poster Slideshow Component
-const PosterSlideshow = () => {
-    const [currentSlide, setCurrentSlide] = useState(0);
-
-    const slides = [
-        // Zodiac Signs
-        { type: 'zodiac', title: 'Bạch Dương', subtitle: 'Aries • 21/3 - 19/4', description: 'Dũng cảm, nhiệt huyết, tiên phong', gradient: 'from-red-500 via-orange-500 to-yellow-500', icon: '♈' },
-        { type: 'zodiac', title: 'Kim Ngưu', subtitle: 'Taurus • 20/4 - 20/5', description: 'Kiên định, thực tế, đáng tin cậy', gradient: 'from-green-600 via-emerald-500 to-teal-500', icon: '♉' },
-        { type: 'zodiac', title: 'Song Tử', subtitle: 'Gemini • 21/5 - 20/6', description: 'Linh hoạt, giao tiếp, tò mò', gradient: 'from-yellow-400 via-amber-400 to-orange-400', icon: '♊' },
-        { type: 'zodiac', title: 'Cự Giải', subtitle: 'Cancer • 21/6 - 22/7', description: 'Nhạy cảm, chu đáo, bảo vệ', gradient: 'from-blue-400 via-cyan-400 to-teal-400', icon: '♋' },
-        { type: 'zodiac', title: 'Sư Tử', subtitle: 'Leo • 23/7 - 22/8', description: 'Tự tin, lãnh đạo, hào phóng', gradient: 'from-orange-500 via-red-500 to-pink-500', icon: '♌' },
-        { type: 'zodiac', title: 'Xử Nữ', subtitle: 'Virgo • 23/8 - 22/9', description: 'Tỉ mỉ, phân tích, hoàn hảo', gradient: 'from-green-500 via-lime-500 to-yellow-500', icon: '♍' },
-        { type: 'zodiac', title: 'Thiên Bình', subtitle: 'Libra • 23/9 - 22/10', description: 'Cân bằng, hài hòa, công bằng', gradient: 'from-pink-400 via-rose-400 to-red-400', icon: '♎' },
-        { type: 'zodiac', title: 'Bọ Cạp', subtitle: 'Scorpio • 23/10 - 21/11', description: 'Mạnh mẽ, bí ẩn, quyết đoán', gradient: 'from-purple-600 via-indigo-600 to-blue-600', icon: '♏' },
-        { type: 'zodiac', title: 'Nhân Mã', subtitle: 'Sagittarius • 22/11 - 21/12', description: 'Tự do, phiêu lưu, lạc quan', gradient: 'from-violet-500 via-purple-500 to-fuchsia-500', icon: '♐' },
-        { type: 'zodiac', title: 'Ma Kết', subtitle: 'Capricorn • 22/12 - 19/1', description: 'Kỷ luật, tham vọng, trách nhiệm', gradient: 'from-slate-600 via-gray-600 to-zinc-600', icon: '♑' },
-        { type: 'zodiac', title: 'Bảo Bình', subtitle: 'Aquarius • 20/1 - 18/2', description: 'Độc lập, sáng tạo, nhân đạo', gradient: 'from-cyan-500 via-blue-500 to-indigo-500', icon: '♒' },
-        { type: 'zodiac', title: 'Song Ngư', subtitle: 'Pisces • 19/2 - 20/3', description: 'Trực giác, nghệ sĩ, từ bi', gradient: 'from-blue-500 via-purple-500 to-pink-500', icon: '♓' },
-
-        // Space News
-        { type: 'news', title: 'Sao Hỏa', subtitle: 'Hành Tinh Đỏ', description: 'Khám phá tiềm năng sự sống trên sao Hỏa', gradient: 'from-red-600 via-orange-600 to-amber-600', icon: '🔴' },
-        { type: 'news', title: 'Hố Đen', subtitle: 'Bí Ẩn Vũ Trụ', description: 'Nghiên cứu mới về lực hấp dẫn cực mạnh', gradient: 'from-black via-purple-900 to-indigo-900', icon: '⚫' },
-        { type: 'news', title: 'Trái Đất', subtitle: 'Hành Tinh Xanh', description: 'Bảo vệ môi trường cho thế hệ tương lai', gradient: 'from-blue-600 via-green-600 to-teal-600', icon: '🌍' },
-    ];
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrentSlide((prev) => (prev + 1) % slides.length);
-        }, 5000); // Auto-play every 5 seconds
-
-        return () => clearInterval(timer);
-    }, [slides.length]);
-
-    const nextSlide = () => {
-        setCurrentSlide((prev) => (prev + 1) % slides.length);
-    };
-
-    const prevSlide = () => {
-        setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-    };
-
-    const goToSlide = (index) => {
-        setCurrentSlide(index);
-    };
-
-    return (
-        <div className="relative w-full max-w-5xl mx-auto">
-            {/* Slideshow Container */}
-            <div className="relative h-[500px] md:h-[600px] rounded-3xl overflow-hidden">
-                {slides.map((slide, index) => (
-                    <motion.div
-                        key={index}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: currentSlide === index ? 1 : 0 }}
-                        transition={{ duration: 0.7 }}
-                        className={`absolute inset-0 bg-gradient-to-br ${slide.gradient}`}
-                        style={{ pointerEvents: currentSlide === index ? 'auto' : 'none' }}
-                    >
-                        {/* Overlay */}
-                        <div className="absolute inset-0 bg-black/20" />
-
-                        {/* Content */}
-                        <div className="relative h-full flex flex-col items-center justify-center text-center px-8">
-                            <motion.div
-                                initial={{ scale: 0 }}
-                                animate={{ scale: currentSlide === index ? 1 : 0 }}
-                                transition={{ duration: 0.5, delay: 0.2 }}
-                                className="text-8xl md:text-9xl mb-8 drop-shadow-2xl"
-                            >
-                                {slide.icon}
-                            </motion.div>
-
-                            <motion.h3
-                                initial={{ y: 20, opacity: 0 }}
-                                animate={{ y: currentSlide === index ? 0 : 20, opacity: currentSlide === index ? 1 : 0 }}
-                                transition={{ duration: 0.5, delay: 0.3 }}
-                                className="text-5xl md:text-7xl font-black text-white mb-4 drop-shadow-lg"
-                            >
-                                {slide.title}
-                            </motion.h3>
-
-                            <motion.p
-                                initial={{ y: 20, opacity: 0 }}
-                                animate={{ y: currentSlide === index ? 0 : 20, opacity: currentSlide === index ? 1 : 0 }}
-                                transition={{ duration: 0.5, delay: 0.4 }}
-                                className="text-xl md:text-2xl text-white/90 mb-3 font-semibold"
-                            >
-                                {slide.subtitle}
-                            </motion.p>
-
-                            <motion.p
-                                initial={{ y: 20, opacity: 0 }}
-                                animate={{ y: currentSlide === index ? 0 : 20, opacity: currentSlide === index ? 1 : 0 }}
-                                transition={{ duration: 0.5, delay: 0.5 }}
-                                className="text-lg md:text-xl text-white/80 max-w-2xl"
-                            >
-                                {slide.description}
-                            </motion.p>
-                        </div>
-                    </motion.div>
-                ))}
-            </div>
-
-            {/* Navigation Buttons */}
-            <button
-                onClick={prevSlide}
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all hover:scale-110"
-            >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-            </button>
-
-            <button
-                onClick={nextSlide}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all hover:scale-110"
-            >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-            </button>
-
-            {/* Dot Indicators */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
-                {slides.map((_, index) => (
-                    <button
-                        key={index}
-                        onClick={() => goToSlide(index)}
-                        className={`w-2 h-2 rounded-full transition-all ${currentSlide === index
-                            ? 'bg-white w-8'
-                            : 'bg-white/40 hover:bg-white/60'
-                            }`}
-                    />
-                ))}
-            </div>
-        </div>
-    );
-};
+import { useRef } from 'react';
+import { StarField, ShootingStar } from '@/components/ui/backgrounds/StarField';
+import { PosterSlideshow } from '@/components/ui/features/PosterSlideshow';
 
 const FeatureCard = ({ icon: Icon, title, description, href, color, delay }) => {
     return (
@@ -232,28 +16,31 @@ const FeatureCard = ({ icon: Icon, title, description, href, color, delay }) => 
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay }}
-                whileHover={{ y: -10, scale: 1.02 }}
+                whileHover={{ y: -10 }}
                 className="relative h-full group"
             >
-                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/0 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative h-full p-8 rounded-2xl card-glass overflow-hidden border border-white/10 group-hover:border-white/20 transition-colors">
-                    {/* Background Gradient Blob */}
-                    <div className={`absolute -right-10 -top-10 w-40 h-40 bg-${color}-500/20 rounded-full blur-3xl group-hover:bg-${color}-500/30 transition-colors duration-500`} />
+                {/* Hover Glow Background */}
+                <div className={`absolute inset-0 bg-gradient-to-br from-${color}-500/20 to-transparent rounded-[2rem] blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
 
-                    <div className="relative z-10">
-                        <div className={`inline-flex p-4 rounded-xl bg-gradient-to-br from-${color}-500/20 to-${color}-500/5 mb-6 border border-${color}-500/20 group-hover:scale-110 transition-transform duration-300`}>
-                            <Icon className={`w-8 h-8 text-${color}-400`} />
+                <div className="relative h-full p-8 rounded-[2rem] glass-panel border border-white/10 group-hover:border-white/20 transition-all duration-300 overflow-hidden">
+                    {/* Corner Accent */}
+                    <div className={`absolute -right-10 -top-10 w-32 h-32 bg-${color}-500/20 rounded-full blur-3xl group-hover:bg-${color}-500/30 transition-colors duration-500`} />
+
+                    <div className="relative z-10 flex flex-col h-full">
+                        <div className={`inline-flex w-16 h-16 items-center justify-center rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/10 mb-8 group-hover:scale-110 transition-transform duration-300 shadow-inner`}>
+                            <Icon className={`w-8 h-8 text-${color}-400 drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]`} />
                         </div>
 
-                        <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-glow transition-all">
+                        <h3 className="text-3xl font-bold mb-4 text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-${color}-300 transition-all">
                             {title}
                         </h3>
-                        <p className="text-slate-300 leading-relaxed mb-6">
+
+                        <p className="text-slate-400 leading-relaxed mb-8 flex-grow group-hover:text-slate-200 transition-colors">
                             {description}
                         </p>
 
-                        <div className={`flex items-center text-${color}-400 font-medium group-hover:translate-x-2 transition-transform`}>
-                            Khám phá ngay <ArrowRight className="ml-2 w-4 h-4" />
+                        <div className={`flex items-center text-sm font-bold uppercase tracking-widest text-${color}-400 group-hover:translate-x-2 transition-transform`}>
+                            Khám phá <ArrowRight className="ml-2 w-4 h-4" />
                         </div>
                     </div>
                 </div>
@@ -273,7 +60,7 @@ export default function Home() {
     const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
     return (
-        <div className="relative min-h-screen bg-[#0B0B1E] text-white overflow-hidden selection:bg-purple-500/30">
+        <div className="relative min-h-screen bg-background text-foreground overflow-hidden selection:bg-purple-500/30">
             {/* Dynamic Background */}
             <div className="fixed inset-0 z-0">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(76,29,149,0.1),_rgba(15,23,42,1))]" />
@@ -285,32 +72,31 @@ export default function Home() {
             </div>
 
             {/* Hero Section */}
-            <section ref={ref} className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 pt-20 pb-32">
+            <section ref={ref} className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 pt-20 pb-32 overflow-hidden">
+                {/* Nebula Background for Hero */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-purple-500/10 rounded-full blur-[120px] mix-blend-screen animate-pulse" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-500/10 rounded-full blur-[100px] mix-blend-screen animate-pulse delay-1000" />
+
                 <motion.div
                     style={{ y, opacity }}
-                    className="text-center max-w-5xl mx-auto relative"
+                    className="text-center max-w-5xl mx-auto relative z-10"
                 >
-                    {/* Decorative Elements */}
-                    <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
-                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-white/5 rounded-full pointer-events-none"
-                    />
-                    <motion.div
-                        animate={{ rotate: -360 }}
-                        transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
-                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-white/5 rounded-full pointer-events-none border-dashed"
-                    />
+                    {/* Decorative Elements - Nebula Glow Only */}
+
 
                     <motion.div
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         transition={{ duration: 1, ease: "easeOut" }}
-                        className="mb-8 inline-block relative"
+                        className="mb-8 inline-block relative group cursor-pointer"
                     >
-                        <div className="absolute inset-0 bg-purple-500/30 blur-3xl rounded-full" />
-                        <span className="relative px-4 py-1.5 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-300 text-sm font-medium uppercase tracking-wider backdrop-blur-md">
-                            ✨ Khám phá vận mệnh của bạn
+                        <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 blur-xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+                        <span className="relative px-6 py-2 rounded-full border border-white/20 bg-black/30 text-white text-sm font-bold uppercase tracking-widest backdrop-blur-xl shadow-[0_0_15px_rgba(168,85,247,0.5)] group-hover:border-white/40 group-hover:scale-105 transition-all flex items-center gap-2">
+                            <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
+                            </span>
+                            Khám phá vận mệnh
                         </span>
                     </motion.div>
 
@@ -318,24 +104,26 @@ export default function Home() {
                         initial={{ y: 20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-6xl md:text-8xl font-black tracking-tighter mb-8 leading-tight"
+                        className="relative z-20 text-7xl md:text-9xl font-black tracking-tighter mb-8 leading-[0.9]"
                     >
-                        <span className="block hero-gradient-text drop-shadow-2xl">
-                            ASTRO HUB
+                        <span className="block text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/10 drop-shadow-[0_0_30px_rgba(255,255,255,0.3)] filter blur-[0.5px]">
+                            ASTRO
                         </span>
-                        <span className="block text-4xl md:text-6xl text-white/90 font-bold mt-2">
-                            Giải Mã Vũ Trụ
-                        </span>
+                        <div className="relative inline-block">
+                            <div className="absolute -inset-1 blur-2xl bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 opacity-50 animate-pulse" />
+                            <span className="relative block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 text-6xl md:text-8xl font-black mt-2 tracking-wide drop-shadow-lg">
+                                HUB
+                            </span>
+                        </div>
                     </motion.h1>
 
                     <motion.p
                         initial={{ y: 20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ duration: 0.8, delay: 0.4 }}
-                        className="text-lg md:text-2xl text-slate-300 max-w-2xl mx-auto mb-12 leading-relaxed"
+                        className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto mb-12 leading-relaxed font-light"
                     >
-                        Hành trình khám phá bản thân qua lăng kính của các vì sao.
-                        Kết hợp trí tuệ cổ xưa và công nghệ hiện đại.
+                        Giải mã vũ trụ bên trong bạn. <span className="text-white font-semibold drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">Lá số tử vi</span>, <span className="text-white font-semibold drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">Thần số học</span> và <span className="text-white font-semibold drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">Tarot</span>.
                     </motion.p>
 
                     <motion.div
@@ -345,13 +133,13 @@ export default function Home() {
                         className="flex flex-wrap justify-center gap-6"
                     >
                         <Link href="/horoscope">
-                            <Button size="lg" className="h-14 px-8 text-lg bg-white text-purple-900 hover:bg-slate-200 rounded-full font-bold shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] transition-all transform hover:-translate-y-1">
-                                <Compass className="mr-2 w-5 h-5" />
+                            <Button size="lg" className="group h-16 px-10 text-xl bg-white text-black hover:bg-white/90 rounded-full font-black tracking-tight shadow-[0_0_40px_-10px_rgba(255,255,255,0.6)] hover:shadow-[0_0_60px_-15px_rgba(255,255,255,0.8)] hover:scale-105 transition-all duration-300">
+                                <Compass className="mr-3 w-6 h-6 group-hover:rotate-45 transition-transform duration-500" />
                                 Bắt Đầu Ngay
                             </Button>
                         </Link>
                         <Link href="/birth-chart">
-                            <Button size="lg" variant="outline" className="h-14 px-8 text-lg border-white/20 bg-white/5 hover:bg-white/10 text-white rounded-full backdrop-blur-md transition-all">
+                            <Button size="lg" variant="outline" className="h-16 px-10 text-xl border-white/10 bg-white/5 hover:bg-white/10 text-white rounded-full backdrop-blur-xl transition-all hover:scale-105 hover:border-white/30 shadow-[0_0_20px_-5px_rgba(0,0,0,0.3)]">
                                 Tạo Lá Số
                             </Button>
                         </Link>
@@ -365,8 +153,8 @@ export default function Home() {
                     transition={{ duration: 2, repeat: Infinity, delay: 2 }}
                     className="absolute bottom-10 left-1/2 -translate-x-1/2 text-slate-400 flex flex-col items-center gap-2"
                 >
-                    <span className="text-xs uppercase tracking-widest">Cuộn xuống</span>
-                    <div className="w-px h-12 bg-gradient-to-b from-slate-400 to-transparent" />
+                    <span className="text-xs uppercase tracking-[0.2em] opacity-70">Cuộn xuống</span>
+                    <div className="w-[1px] h-16 bg-gradient-to-b from-slate-500 via-slate-500 to-transparent opacity-50" />
                 </motion.div>
             </section>
 
@@ -379,7 +167,7 @@ export default function Home() {
                         viewport={{ once: true }}
                         className="text-center mb-20"
                     >
-                        <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">
+                        <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">
                             Công Cụ Huyền Học
                         </h2>
                         <p className="text-xl text-slate-400 max-w-2xl mx-auto">
@@ -426,7 +214,7 @@ export default function Home() {
                         transition={{ duration: 1 }}
                         className="text-center mb-16"
                     >
-                        <h2 className="text-5xl md:text-6xl font-black mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-300 via-pink-300 to-blue-300">
+                        <h2 className="text-5xl md:text-6xl font-black mb-6 gradient-text">
                             Khám Phá Vũ Trụ
                         </h2>
                         <p className="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto">
@@ -439,23 +227,26 @@ export default function Home() {
             </section>
 
             {/* Quote Section */}
-            <section className="relative z-10 py-32 px-4 text-center overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/10 to-transparent" />
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    className="max-w-4xl mx-auto relative"
-                >
-                    <Zap className="w-12 h-12 text-yellow-400 mx-auto mb-8 animate-pulse" />
-                    <h2 className="text-3xl md:text-5xl font-serif italic text-slate-200 leading-relaxed">
-                        "Các vì sao không quyết định số phận của chúng ta, chúng chỉ soi sáng con đường để ta tự quyết định."
-                    </h2>
-                </motion.div>
+            <section className="relative z-10 py-32 px-4 text-center">
+                <div className="max-w-5xl mx-auto relative group">
+                    <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-blue-500/10 to-purple-500/10 blur-3xl opacity-50 rounded-full" />
+
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        className="relative p-12 md:p-20 rounded-[3rem] border border-white/10 bg-white/[0.02] backdrop-blur-sm overflow-hidden"
+                    >
+                        <Zap className="w-16 h-16 text-yellow-400 mx-auto mb-10 drop-shadow-[0_0_15px_rgba(250,204,21,0.5)] animate-pulse" />
+                        <h2 className="text-3xl md:text-5xl font-serif italic text-white leading-relaxed tracking-wide drop-shadow-lg">
+                            "Các vì sao không quyết định số phận của chúng ta, chúng chỉ <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-amber-500">soi sáng con đường</span> để ta tự quyết định."
+                        </h2>
+                    </motion.div>
+                </div>
             </section>
 
             {/* Footer Decoration */}
-            <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
+            <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
         </div>
     );
 }

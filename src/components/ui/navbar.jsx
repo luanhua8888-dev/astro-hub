@@ -35,7 +35,7 @@ export function NavBar() {
     };
 
     return (
-        <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <nav className="sticky top-0 z-50 w-full border-b border-white/10 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
             <div className="container mx-auto px-4">
                 <div className="flex h-16 items-center justify-between">
                     {/* Logo */}
@@ -112,7 +112,7 @@ export function NavBar() {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden border-b bg-background"
+                        className="md:hidden border-b border-white/10 bg-background/90 backdrop-blur-xl"
                     >
                         <div className="container mx-auto px-4 py-4 space-y-4">
                             {navItems.map((item) => (
