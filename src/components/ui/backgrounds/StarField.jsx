@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { motion } from 'framer-motion';
 
 // Simplified StarField for maximum performance and clean aesthetics
 export const StarField = () => {
@@ -84,12 +85,39 @@ export const StarField = () => {
     );
 };
 
-export const ShootingStar = ({ delay }) => {
-    // Kept purely for compatibility if imported elsewhere, but can be empty or simple
-    // The previous implementation was fine, but let's keep it simple or restore it if needed.
-    // User asked for "more stars", so keeping shooting stars is good.
-    // I will restore the original ShootingStar logic here.
 
-    // ...Wait, need to import motion first.
-    return null; // Temporarily disabling individual shooting stars to reduce "clutter" as per user feedback
+
+export const ShootingStar = ({ delay = 0 }) => {
+    // Generate random starting position
+    const top = Math.floor(Math.random() * 30) + "%";
+    const left = Math.floor(Math.random() * 50) + 50 + "%";
+
+    return (
+        <motion.div
+            initial={{
+                top: top,
+                left: left,
+                opacity: 0,
+                scale: 0.5,
+                translateX: 0,
+                translateY: 0,
+            }}
+            animate={{
+                opacity: [0, 1, 0],
+                translateX: -800, // Move left
+                translateY: 800,  // Move down
+            }}
+            transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                delay: delay,
+                repeatDelay: Math.random() * 15 + 10, // Random delay between shots
+                ease: "easeOut"
+            }}
+            className="absolute z-0 h-[2px] w-[100px] bg-gradient-to-l from-white to-transparent rotate-[-45deg]"
+            style={{
+                boxShadow: "0 0 20px 2px rgba(255, 255, 255, 0.4)"
+            }}
+        />
+    );
 };
